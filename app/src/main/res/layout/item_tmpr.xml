@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_viewholder"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="9"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="담당보건소명"
+            android:textSize="24sp"
+            android:padding="3dp" />
+
+        <TextView
+            android:id="@+id/tv_region"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="시군명"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_addr1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="도로명주소"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_addr2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="지번주소"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="설치위치"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_baseline_reorder_24" />
+
+</LinearLayout>
