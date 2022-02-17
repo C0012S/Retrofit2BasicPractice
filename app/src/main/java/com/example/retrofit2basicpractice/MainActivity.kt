@@ -7,6 +7,10 @@ import android.view.LayoutInflater
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.retrofit2basicpractice.databinding.ActivityMainBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -38,22 +42,39 @@ class MainActivity : AppCompatActivity() {
     private fun retrofitWork() {
         val service = RetrofitApi.tmprService
 
-        service.getTmprData(getString(R.string.api_key), "json")
-            .enqueue(object : Callback<TmprResponse> {
-                override fun onResponse(
-                    call: Call<TmprResponse>,
-                    response: Response<TmprResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        Log.d("TAG", response.body().toString())
-                        val result = response.body()?.tmprScrnIspcOfic?.get(1)?.row
-                        tmprAdapter.submitList(result!!)
-                    }
-                }
+        // enqueue로 처리
+//        service.getTmprData(getString(R.string.api_key), "json")
+//            .enqueue(object : Callback<TmprResponse> {
+//                override fun onResponse(
+//                    call: Call<TmprResponse>,
+//                    response: Response<TmprResponse>
+//                ) {
+//                    if (response.isSuccessful) {
+//                        Log.d("TAG", response.body().toString())
+//                        val result = response.body()?.tmprScrnIspcOfic?.get(1)?.row
+//                        tmprAdapter.submitList(result!!)
+//                    }
+//                }
+//
+//                override fun onFailure(call: Call<TmprResponse>, t: Throwable) {
+//                    Log.d("TAG", t.message.toString())
+//                }
+//            })
 
-                override fun onFailure(call: Call<TmprResponse>, t: Throwable) {
-                    Log.d("TAG", t.message.toString())
+        // Coroutine으로 수행
+        CoroutineScope(Dispatchers.IO).launch {
+            val response = service.getDataCoroutine(getString(R.string.api_key), "json")
+
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    val result = response.body()?.tmprScrnIspcOfic?.get(1)?.row
+                    result?.let {
+                        tmprAdapter.submitList(it)
+                    }
+                } else {
+                    Log.d("TAG", response.code().toString())
                 }
-            })
+            }
+        }
     }
 }
